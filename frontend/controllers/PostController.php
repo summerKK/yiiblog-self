@@ -71,21 +71,21 @@ class PostController extends Controller
         $commentModel->userid = $userMe->id;
 
         //step2. 当评论提交时，处理评论
-        if($commentModel->load(Yii::$app->request->post())) {
+        if ($commentModel->load(Yii::$app->request->post())) {
             $commentModel->status = 1; ////新评论默认状态为 pending
             $commentModel->post_id = $id;
-            if($commentModel->save()) {
+            if ($commentModel->save()) {
                 $this->added = 1;
             }
         }
 
         //step3.传数据给视图渲染
         return $this->render('view', [
-            'model'       => $this->findModel($id),
-            'tags'        => $tags,
-            'comments'    => $comments,
-            'searchModel' => $searchModel,
-            'added'       => $this->added,
+            'model'        => $this->findModel($id),
+            'tags'         => $tags,
+            'comments'     => $comments,
+            'searchModel'  => $searchModel,
+            'added'        => $this->added,
             'commentModel' => $commentModel,
         ]);
 
@@ -100,7 +100,7 @@ class PostController extends Controller
     {
         $model = new Post();
 
-        if($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -119,7 +119,7 @@ class PostController extends Controller
     {
         $model = $this->findModel($id);
 
-        if($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -137,7 +137,7 @@ class PostController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        //渲染视图
         return $this->redirect(['index']);
     }
 
@@ -150,7 +150,7 @@ class PostController extends Controller
      */
     protected function findModel($id)
     {
-        if(($model = Post::findOne($id)) !== null) {
+        if (($model = Post::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
